@@ -47,6 +47,15 @@ export const showAllMeasurements = async function (
 
   const data = await window.api.getMeasurements();
 
+  allMeasurementList.insertAdjacentHTML(
+    "beforeend",
+    `<li class="list-item-header">
+            <p>Name</p>
+            <p>No Suits</p>
+            <p>Return date</p>
+          </li>`
+  );
+
   const measurementItemsHtml = data
     .map((el) => {
       return ` <li class="list-item" data-measurement-item=${el.id}>
@@ -57,7 +66,7 @@ export const showAllMeasurements = async function (
     })
     .join(" ");
 
-  allMeasurementList.insertAdjacentHTML("afterend", measurementItemsHtml);
+  allMeasurementList.insertAdjacentHTML("beforeend", measurementItemsHtml);
 };
 
 export const showMeasurement = async function (

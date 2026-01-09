@@ -56,6 +56,7 @@ const handleAddMeasuremnt = function (e) {
 };
 
 const handleHomeBtn = function () {
+  allMeasurementList.textContent = "";
   allMeasurementsWrapper.classList.add("hide");
   sectionHome.classList.remove("hide");
 };
