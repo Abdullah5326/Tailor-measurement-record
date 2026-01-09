@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'"
+    />
+    <meta
+      http-equiv="X-Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'"
+    />
+    <link rel="stylesheet" href="./../css/style.css" />
+    <link rel="stylesheet" href="./../css/general.css">
+    
+    <title>Majid | Tailors</title>
+  </head>
+  <body>
+    <!-- Home Page -->
+    <section class="home">
+      <div class="hero-container">
+        <h1 class="pri-heading">Majid Tailors</h1>
+        <div class="home-btns">
+          <button class="btn btn-add-measurement">Add Measurment</button>
+          <button class="btn btn-see-measurements">See All Measurments</button>
+        </div>
+      </div>
+
+      <div class="form-wrapper">
+        <span class="btn-form-close">&times;</span>
+        <form action="#" class="form form-add-measurement grid cols-2">
+          <div class="measurment-details-section grid cols-2">
+            <div>
+              <label for="name">Name</label>
+              <input type="text" id="name" value="Abdullah" name="name" />
+            </div>
+            <div>
+              <label for="numSuits">No. suits</label>
+              <input type="number" name="numSuits" id="numSuits" value="2" />
+            </div>
+            <div>
+              <label for="price">Price</label>
+              <input type="number" name="price" id="price" value="2000" />
+            </div>
+            <div>
+              <label for="return-date">Return Date</label>
+              <input type="date" name="returnDate" id="return-date" />
+            </div>
+          </div>
+          <div class="measurment-form-col-1">
+            <div>
+              <label for="length">lambai</label>
+              <input type="number" id="length" value="42" name="length" />
+            </div>
+            <div>
+              <label for="width">chorai</label>
+              <input type="number" id="width" value="21" name="width" />
+            </div>
+            <div>
+              <label for="shoulder">tira</label>
+              <input type="number" id="shoulder" value="19" name="shoulder" />
+            </div>
+            <div>
+              <label for="collar">collar</label>
+              <input type="number" id="collar" value="15" name="collar" />
+            </div>
+            <div>
+              <label for="chest">chati</label>
+              <input type="number" id="chest" value="36" name="chest"/>
+            </div>
+            <div>
+              <label for="fitness">gira</label>
+              <input type="number" id="fitness" value="21" name="fitness" />
+            </div>
+            <div>
+              <label for="sleeve">astin</label>
+              <input type="number" id="sleeve" value="23.5" name="sleeve" />
+            </div>
+            <div>
+              <label for="shalwar">shalwar</label>
+              <input type="number" id="shalwar" value="42" name="shalwar" />
+            </div>
+            <div>
+              <label for="pancha">pancha</label>
+              <input type="number" id="pancha" value="7" name="pancha" />
+            </div>
+          </div>
+          <div class="measurment-form-col-2 grid cols-2">
+            <div>
+              <label for="isCollor">Collor</label>
+              <input type="checkbox" id="isCollor" class="checkbox" name="isCollor" />
+            </div>
+            <div>
+              <label for="banGol">Ban gol</label>
+              <input type="checkbox" id="banGol" class="checkbox" name="banGol" />
+            </div>
+            <div>
+              <label for="lahinGol">Lahin Gol</label>
+              <input type="checkbox" id="lahinGol" class="checkbox" name="lahinGol" />
+            </div>
+            <div>
+              <label for="frontPocket">Front pocket</label>
+              <input type="checkbox" class="checkbox" id="frontPocket" name="frontPocket" />
+            </div>
+            <div>
+              <label for="silkThread">Chamak Tar</label>
+              <input type="checkbox" class="checkbox" id="silkThread" name="silkThread"/>
+            </div>
+            <div>
+              <label for="stylishBtns">Btn designi</label>
+              <input type="checkbox" class="checkbox" id="stylishBtns" name="stylishBtns" />
+            </div>
+            <div>
+              <label for="stylishSuit">designi Suit</label>
+              <input type="checkbox" class="checkbox" id="stylishSuit" name="stylishSuit" />
+            </div>
+            <div>
+              <label for="shalwarPocket">Shalwar pocket</label>
+              <input type="checkbox" class="checkbox" id="shalwarPocket" name="shalwarPocket"/>
+            </div>
+            <div>
+              <label for="sleeveSimple">Astin Sada</label>
+              <input
+                type="number"
+                name="sleeveSimple"
+                id="sleeveSimple"
+                class="input-small"
+                value="6"
+              />
+            </div>
+            <div>
+              <label for="cuff">Suit cuff</label>
+              <input type="number" name="cuff" id="cuff" class="input-small" value="8.5" />
+            </div>
+            <div class="side-pockets-container">
+              <label for="sidePockets" value="2">Side pockets</label>
+              <input type="number" class="input-side-pockets input-small" value="2" id="sidePockets" name="sidePockets"/>
+            </div>
+          </div>
+          <div class="form-measurment-btn-container">
+            <button class="btn-form-add-measurement">Add Measurment</button>
+          </div>
+        </form>
+      </di>
+    </section>
+
+    <div class="all-measurements-wrapper hide">
+    <section class="all-measurements">
+      <aside class="sidebar">
+        <div class="sidebar-btns">
+          <button class="btn-sidebar btn-home">Home</button>
+          <button class="btn-sidebar ">Customers</button>
+          <button class="btn-sidebar btn-measurements">Measurements</button>
+          <button class="btn-sidebar ">Karigars</button>
+        </div>
+      </aside>
+      <div class="measurements">
+        <ul class="measurement-list">
+          <li class="list-item-header">
+            <p>Name</p>
+            <p>No Suits</p>
+            <p>Return date</p>
+          </li>
+          <!-- <li class="list-item">
+            <p>Abdullah</p>
+            <p>2</p>
+            <p>02/02/25</p>
+          </li> -->
+         
+        </div>
+      <!-- <div class="measurement-item grid cols-2"> 
+        <div class="measurement-header">
+          <div>
+            <p>name</p>
+            <p>Abdullah</p>
+          </div>
+          <div>
+            <p>return date</p>
+            <p>02/03/2007</p>
+          </div>
+          <div>
+            <p>No. suits</p>
+            <p>02</p>
+          </div>
+          <div>
+            <p>Price</p>
+            <p>1000</p>
+          </div>
+        </div>
+
+        <div class="measurement-item-main">
+          <div>
+            <p>Lambai</p>
+            <p>43</p>
+          </div>
+          <div>
+            <p>gira</p>
+            <p>21</p>
+          </div>
+          <div>
+            <p>tira</p>
+            <p>18</p>
+          </div>
+          <div>
+            <p>Astin</p>
+            <p>24</p>
+          </div>
+          <div>
+            <p>collar</p>
+            <p>15</p>
+          </div>
+          <div>
+            <p>chati</p>
+            <p>40</p>
+          </div>
+          <div>
+            <p>shalwar</p>
+            <p>40</p>
+          </div>
+          <div>
+            <p>pancha</p>
+            <p>7</p>
+          </div>
+        </div>
+
+        <div class="measurement-item-options">
+          <div class="grid cols-2">
+            <div>
+              <label for="cutBan">Cut Ban</label>
+              <input type="checkbox" name="cutBan" id="cutBan">
+          </div>
+          <div>
+            <label for="aamBan">Aam Ban</label>
+            <input type="checkbox" name="aamBan" id="aamBan">
+          </div>
+          <div>
+            <label for="lahinGol">Lahin Gol</label>
+            <input type="checkbox" name="lahinGol" id="lahinGol">
+          </div>
+          <div>
+            <label for="lahinSada">Lahin Sada</label>
+            <input type="checkbox" name="lahinSada" id="lahinSada">
+          </div>
+        </div>
+
+        <div>
+          <p>Cuff</p>
+          <p>9</p>
+        </div>
+
+        <div class="grid cols-2">
+          <div>
+            <label for="aamSuit">Aam suit</label>
+            <input type="checkbox" name="aamSuit" id="aamSuit">
+          </div>
+          <div>
+            <label for="stylishSuit">Designi suit</label>
+            <input type="checkbox" name="stylishSuit" id="stylishSuit">
+          </div>
+          <div>
+            <label for="shalwarPocketMeasurment">Shalwar Pocket</label>
+            <input type="checkbox" name="shalwarPocketMeasurment" id="shalwarPocketMeasurment">
+          </div>
+        </div>
+            <div>
+             <p>Astin Sada</p>
+             <p>5</p>
+            </div>
+        </div>
+      </div> -->
+    </section>
+    </div>
+    <script src="./../../renderer/renderer.js" type="module"></script>
+  </body>
+</html>

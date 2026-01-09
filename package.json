@@ -1,0 +1,41 @@
+{
+  "name": "tailors-record",
+  "version": "1.0.0",
+  "description": "The app is used to record the tailors measurment of persons.",
+  "author": {
+    "name": "Abdullah",
+    "email": "abdullahweb53264189@gmail.com"
+  },
+  "homepage": "https://abdullah5326portfolio.netlify.com",
+  "main": "main.js",
+  "build": {
+    "appId": "com.tailor.measurements",
+    "productName": "Tailor Measurements",
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "icon": "assets/icon.png",
+      "category": "Utility",
+      "maintainer": "Abdullah <abdullahweb53264189@gmail.com"
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "postinstall": "electron-rebuild",
+    "build": "electron-builder"
+  },
+  "license": "ISC",
+  "keywords": [],
+  "devDependencies": {
+    "electron": "^39.2.7",
+    "electron-builder": "^26.4.0",
+    "electron-rebuild": "^3.2.9"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.5.0",
+    "electron-reload": "^2.0.0-alpha.1"
+  }
+}

@@ -1,0 +1,107 @@
+/* ****************************************************** */
+/* --------------------- GENRAL ------------------------- */
+/* ****************************************************** */
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #0f2027;
+  --sec-color: #2c5364;
+  --sec-color-100: #284b5a;
+  --sec-color-light: #416474;
+  --background-color: #f1f3f5;
+  --gray-100: #d9dbdd;
+  --gray-200: #c1c2c4;
+  --gray-lighter: #f4f5f7;
+}
+
+html {
+  font-size: 62.6%;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pri-heading {
+  font-size: 12.8rem;
+  color: var(--primary-color);
+}
+.sec-heading {
+  font-size: 6.2rem;
+}
+
+.btn {
+  padding: 1.6rem 3.2rem;
+  font-size: 1.6rem;
+  border: none;
+  outline: none;
+  background-color: var(--sec-color);
+  color: var(--background-color);
+  border-radius: 0.8rem;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background-color: var(--sec-color-100);
+}
+
+.show {
+  display: block;
+}
+
+.grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.cols-2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.checkbox {
+  height: 1.6rem;
+  width: 1.6rem;
+  accent-color: black;
+}
+
+.input-small {
+  width: 10rem;
+  height: 3rem;
+}
+
+.alert {
+  padding: 1.6rem;
+  font-size: 1.8rem;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: move 0.4s ease 0s 1;
+  transition: all 0.3s ease;
+}
+
+.alert-success {
+  background-color: green;
+}
+
+.alert-fail {
+  background-color: red;
+}
+
+@keyframes move {
+  from {
+    /* top: -50px; */
+    transform: translate(-50%, -100%);
+  }
+  to {
+    transform: translate(-50%, 0%);
+    /* top: 0px; */
+  }
+}

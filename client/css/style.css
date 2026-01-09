@@ -1,0 +1,307 @@
+/* ****************************************************** */
+/* --------------------- HOME ------------------------- */
+/* ****************************************************** */
+.home {
+  height: 100dvh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  background: var(--background-color);
+  width: 100%;
+}
+
+.hero-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+  transform: translateY(-10rem);
+}
+
+.home-btns {
+  display: flex;
+  gap: 12rem;
+}
+
+.form-wrapper {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.form-wrapper {
+  display: none;
+}
+
+.form-add-measurement {
+  padding: 6.4rem;
+  padding-bottom: 2.4rem;
+  background-color: var(--gray-100);
+  font-size: 1.6rem;
+  width: 70rem;
+  font-size: 1.7rem;
+  display: grid;
+  border-radius: 0.6rem;
+  box-shadow: 1.2rem 1.2rem 1.2rem rgba(0, 0, 0, 0.2);
+  z-index: 5;
+}
+
+.btn-form-add-measurement {
+  background-color: var(--sec-color);
+  color: var(--background-color);
+  font-size: 1.6rem;
+  border: none;
+  outline: none;
+  border-radius: 0.4rem;
+  padding: 1.2rem 0;
+}
+
+.btn-form-close {
+  position: absolute;
+  right: 1.2rem;
+  font-size: 3.2rem;
+  padding: 0.4rem;
+  cursor: pointer;
+}
+
+.btn-form-add-measurement:hover {
+  background-color: var(--sec-color-100);
+}
+
+.measurment-details-section {
+  grid-column: 1/-1;
+}
+
+.measurment-form-col-1 {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.measurment-form-col-2 div,
+.measurment-form-col-1 div,
+.measurment-details-section div {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+.form-add-measurment button {
+  width: 100%;
+}
+
+.measurment-form-col-1 div label,
+.measurment-details-section label,
+.measurment-form-col-2 label {
+  text-transform: capitalize;
+  width: 12rem;
+  line-break: loose;
+  white-space: nowrap;
+}
+
+.measurment-form-col-1 div label::after {
+  content: ":";
+}
+
+.measurment-form-col-1 div input,
+.measurment-details-section div input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  border-bottom: 1px solid black;
+}
+
+.side-pockets-container {
+  grid-column: 1 / -1;
+}
+
+.form-measurment-btn-container {
+  grid-column: 1/ -1;
+}
+
+/* ****************************************************** */
+/* ------------------- SIDEBAR ------------------ */
+/* ****************************************************** */
+.sidebar {
+  background-color: var(--gray-100);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.sidebar-btns {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.2rem;
+  width: 100%;
+  transform: translateY(-100%);
+}
+
+.btn-sidebar {
+  background-color: none;
+  border: none;
+  background-color: var(--gray-100);
+  font-size: 1.8rem;
+  width: 100%;
+  padding: 1.2rem 0;
+  padding-left: 2.4rem;
+  text-align: left;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.btn-sidebar:hover {
+  cursor: pointer;
+  background-color: var(--gray-200);
+}
+
+/* ****************************************************** */
+/* ------------------- ALL MEASURMENTS ------------------ */
+/* ****************************************************** */
+
+.all-measurements-wrapper {
+  height: 100vh;
+  width: 100%;
+  background-color: var(--background-color);
+}
+
+.all-measurements {
+  display: grid;
+  grid-template-columns: 25rem 1fr;
+  height: 100%;
+  width: 100%;
+}
+
+.measurements {
+  overflow-y: auto;
+}
+
+.measurement-list {
+  display: flex;
+  flex-direction: column;
+  /* gap: 1.6rem; */
+  font-size: 1.8rem;
+  overflow-y: auto;
+}
+
+.list-item-header {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  padding: 2.4rem;
+  padding-bottom: 0;
+  background-color: var(--primary-color);
+  color: var(--gray-100);
+  align-items: center;
+  align-content: center;
+}
+
+.list-item-header p {
+  display: flex;
+  align-items: center;
+  padding-bottom: 2.4rem;
+}
+
+.list-item {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  background-color: var(--gray-100);
+  padding: 1.2rem 2.4rem;
+  cursor: pointer;
+  margin-bottom: 1.6rem;
+  font-size: 1.8rem;
+}
+
+.list-item:hover {
+  background-color: var(--gray-200);
+}
+
+.measurments-table {
+  width: 100%;
+  color: white;
+  font-size: 2rem;
+  background-color: var(--sec-color);
+  height: 100%;
+}
+
+th {
+  text-align: start;
+}
+
+.measurement-items-table {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  background-color: red;
+}
+
+.table-row {
+  background-color: var(--sec-color-light);
+}
+
+.measurement-item {
+  font-size: 1.8rem;
+  text-transform: capitalize;
+  max-width: 60rem;
+  max-height: 40rem;
+  padding: 4rem;
+}
+
+.measurement-item p:nth-child(2) {
+  /* text-decoration: underline; */
+  width: 10rem;
+  border-bottom: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+}
+.measurement-header {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  row-gap: 1rem;
+  grid-column: 1/-1;
+}
+
+.measurement-header div,
+.measurement-item-main div,
+.measurement-item-options div:nth-child(2),
+.measurement-item-options div:nth-child(4) {
+  display: flex;
+  gap: 2rem;
+}
+
+.measurement-header div p:first-child,
+.measurement-item-main div p:first-child {
+  width: 10rem;
+  white-space: nowrap;
+}
+
+.measurement-item-main,
+.measurement-item-options {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.measurement-item-options div:nth-child(3) div {
+  display: flex;
+  white-space: nowrap;
+  gap: 2rem;
+}
+
+.measurement-item-options label {
+  width: 10rem;
+}
+
+.hide {
+  display: none;
+}
