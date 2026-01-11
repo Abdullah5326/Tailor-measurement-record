@@ -69,6 +69,7 @@ body {
   height: 1.6rem;
   width: 1.6rem;
   accent-color: black;
+  border-radius: 50%;
 }
 
 .input-small {
@@ -95,13 +96,51 @@ body {
   background-color: red;
 }
 
+.circle {
+  padding: 0.5rem;
+  background-color: white;
+  border-radius: 50%;
+  border: 3px solid white;
+}
+
+.circle-fill {
+  background-color: blue;
+}
+
+.dots {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  cursor: pointer;
+}
+
+.dot {
+  padding: 0.3rem;
+  background-color: var(--gray-100);
+  border-radius: 50%;
+}
+
+.hide {
+  display: none !important;
+}
+
 @keyframes move {
   from {
-    /* top: -50px; */
     transform: translate(-50%, -100%);
   }
   to {
     transform: translate(-50%, 0%);
-    /* top: 0px; */
+  }
+}
+
+@keyframes moveForm {
+  from {
+    transform: translateY(-60%);
+  }
+  to {
+    transform: translateY((0));
   }
 }

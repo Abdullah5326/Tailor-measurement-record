@@ -8,7 +8,7 @@ let db;
 function createDatabase() {
   const Database = require("better-sqlite3");
 
-  const dbPath = path.join(app.getPath("userData"), "tailors.db");
+  const dbPath = path.join(app.getPath("userData"), "tailors-records.db");
   db = new Database(dbPath);
 
   db.prepare(
@@ -20,6 +20,7 @@ function createDatabase() {
       returnDate TEXT NOT NULL,
       price REAL NOT NULL,
       createdAt TEXT,
+      numOfSuits INTEGER DEFAULT 1,
   
       length REAL NOT NULL,
       width REAL NOT NULL,
@@ -87,20 +88,18 @@ app.on("window-all-closed", () => {
 
 ipcMain.handle("addMeasurement", (event, data) => {
   const stmt = db.prepare(`
-    INSERT INTO measurements (
-      name, returnDate, price, length, width, shoulder, collar, chest, fitness,
-      shalwar, pancha, sleeve, sleeveSimple, cuff, sidePockets,
-      banRounded, lahinRounded, frontPocket, silkThread, stylishButtons,
-      stylishSuit, shalwarPocket
-    ) VALUES (
-      ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
-    )
-  `);
+  INSERT INTO measurements (
+    name, returnDate, price, createdAt, numOfSuits, length, width, shoulder, collar, chest, fitness,
+    shalwar, pancha, sleeve, sleeveSimple, cuff, sidePockets,banRounded, lahinRounded, frontPocket, silkThread, stylishButtons, stylishSuit, shalwarPocket, isCollar
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?)
+`);
 
   stmt.run(
     data.name,
     data.returnDate,
     data.price,
+    data.createdAt,
+    data.numOfSuits,
     data.length,
     data.width,
     data.shoulder,
@@ -119,7 +118,8 @@ ipcMain.handle("addMeasurement", (event, data) => {
     data.silkThread || 0,
     data.stylishButtons || 0,
     data.stylishSuit || 0,
-    data.shalwarPocket || 0
+    data.shalwarPocket || 0,
+    data.isCollar || 0
   );
 
   return { success: true };
@@ -131,4 +131,10 @@ ipcMain.handle("get-measurements", () => {
 
 ipcMain.handle("get-measurement", (event, id) => {
   return db.prepare(`SELECT * FROM measurements WHERE id = ?`).get(id);
+});
+
+ipcMain.handle("delete-measurement", (event, id) => {
+  const result = db.prepare(`DELETE FROM measurements WHERE id = ?`).run(id);
+
+  return result;
 });

@@ -32,7 +32,8 @@
 }
 
 .form-wrapper {
-  display: none;
+  animation: moveForm 0.3s ease 1;
+  transition: all 0.3s ease;
 }
 
 .form-add-measurement {
@@ -224,51 +225,42 @@
   background-color: var(--gray-200);
 }
 
-.measurments-table {
-  width: 100%;
-  color: white;
-  font-size: 2rem;
-  background-color: var(--sec-color);
-  height: 100%;
-}
-
-th {
-  text-align: start;
-}
-
-.measurement-items-table {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  width: 100%;
-  background-color: red;
-}
-
-.table-row {
-  background-color: var(--sec-color-light);
-}
-
 .measurement-item {
   font-size: 1.8rem;
   text-transform: capitalize;
   max-width: 60rem;
-  max-height: 40rem;
+  /* max-height: 40rem; */
   padding: 4rem;
+  background-color: var(--primary-color);
+  color: var(--gray-100);
+  position: relative;
+}
+
+.measurement-item .measurement-item-options div div {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
 }
 
 .measurement-item p:nth-child(2) {
   /* text-decoration: underline; */
   width: 10rem;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid var(--gray-100);
   display: flex;
   justify-content: center;
   align-items: end;
 }
+
 .measurement-header {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   row-gap: 1rem;
   grid-column: 1/-1;
+}
+
+.measurement-header div {
+  display: flex;
+  align-items: center;
 }
 
 .measurement-header div,
@@ -302,6 +294,48 @@ th {
   width: 10rem;
 }
 
-.hide {
-  display: none;
+.operation-menu {
+  position: absolute;
+  top: 4.5rem;
+  right: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.2rem;
+  background-color: var(--gray-100);
+  color: black;
+  border-radius: 0.6rem;
+  width: 14rem;
+  height: 10rem;
+}
+
+.btn-edit,
+.btn-delete {
+  background-color: transparent;
+  text-align: start;
+  font-size: 1.8rem;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  padding: 0.6rem;
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.btn-edit:hover,
+.btn-delete:hover {
+  background-color: var(--gray-200);
+}
+
+.btn-edit {
+  border-top-left-radius: 0.6rem;
+  border-top-right-radius: 0.6rem;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.btn-delete {
+  border-bottom-left-radius: 0.6rem;
+  border-bottom-right-radius: 0.6rem;
 }

@@ -10,6 +10,8 @@ const btnAddMeasurment = document.querySelector(".btn-add-measurement");
 const btnSeeAllMeasurments = document.querySelector(".btn-see-measurements");
 const btnHome = document.querySelector(".btn-home");
 const btnMeasurements = document.querySelector(".btn-measurements");
+const operationMenuDots = document.querySelector(".operation-menu-dots");
+const operationMenu = document.querySelector(".operation-menu");
 const sectionHome = document.querySelector(".home");
 const sectionAllMeasurements = document.querySelector(".all-measurements");
 const formAddMeasurment = document.querySelector(".form-add-measurement");
@@ -23,16 +25,20 @@ let allMeasurementsContainer, measurementItem;
 
 //Handler
 const handleCloseForm = function () {
-  formAddMeasurememtWrapper.style.display = "none";
+  formAddMeasurememtWrapper.classList.add("hide");
 };
 const handleShowForm = function () {
-  formAddMeasurememtWrapper.style.display = "block";
+  formAddMeasurememtWrapper.classList.remove("hide");
   btnCloseForm?.addEventListener("click", handleCloseForm);
 };
 
-const handleShowMeasurement = (e) => {
-  showMeasurement(e, containerMeasurements, sectionAllMeasurements);
+const handleShowMeasurement = async (e) => {
+  await showMeasurement(e, containerMeasurements, sectionAllMeasurements);
   measurementItem = document.querySelector(".measurement-item");
+
+  const operationMenuDots = document.querySelector(".operation-menu-dots");
+
+  operationMenuDots.addEventListener("click", handleOperationMenu);
 };
 
 const handleShowAllMeasuremnts = async () => {
@@ -55,16 +61,58 @@ const handleAddMeasuremnt = function (e) {
   addMeasurement(e, formAddMeasurememtWrapper);
 };
 
+const handleEditMeasurement = function (e) {};
+
+const handleDeleteMeasurement = async function (id) {
+  const result = await window.api.deleteMeasurement(id);
+
+  console.log(result);
+
+  if (result.changes) {
+    sectionHome.classList.add("hide");
+    sectionAllMeasurements.removeChild(measurementItem);
+    measurementItem = undefined;
+    containerMeasurements.classList.remove("hide");
+    allMeasurementList.classList.remove("hide");
+    handleShowAllMeasuremnts();
+  }
+};
+
+const handleOperationMenu = function (e) {
+  const operationMenu = document.querySelector(".operation-menu");
+  operationMenu.classList.toggle("hide");
+
+  const id = e.currentTarget.dataset.measurementItemId;
+  const btnEdit = document.querySelector(".btn-edit");
+  const btnDelete = document.querySelector(".btn-delete");
+
+  btnEdit.addEventListener("click", handleEditMeasurement);
+
+  btnDelete.addEventListener("click", () => handleDeleteMeasurement(id));
+};
+
 const handleHomeBtn = function () {
+  console.log(measurementItem);
+  console.log(Boolean(measurementItem));
+  if (measurementItem) {
+    sectionAllMeasurements.removeChild(measurementItem);
+    measurementItem = undefined;
+  }
+
+  containerMeasurements.classList.remove("hide");
   allMeasurementList.textContent = "";
   allMeasurementsWrapper.classList.add("hide");
   sectionHome.classList.remove("hide");
 };
 
 const handleMeasurementBtn = function () {
+  console.log(measurementItem);
   sectionHome.classList.add("hide");
-  if (measurementItem) measurementItem.style.display = "none";
-  containerMeasurements.style.display = "block";
+  if (measurementItem) {
+    sectionAllMeasurements.removeChild(measurementItem);
+    measurementItem = undefined;
+  }
+  containerMeasurements.classList.remove("hide");
   allMeasurementList.classList.remove("hide");
 };
 

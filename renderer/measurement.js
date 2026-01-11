@@ -34,7 +34,7 @@ export const addMeasurement = async function (e, formAddMeasurememtWrapper) {
   }
 
   form.reset();
-  formAddMeasurememtWrapper.style.display = "none";
+  formAddMeasurememtWrapper.classList.add("hide");
 };
 
 export const showAllMeasurements = async function (
@@ -47,6 +47,8 @@ export const showAllMeasurements = async function (
 
   const data = await window.api.getMeasurements();
 
+  allMeasurementList.innerHTML = "";
+
   allMeasurementList.insertAdjacentHTML(
     "beforeend",
     `<li class="list-item-header">
@@ -55,7 +57,6 @@ export const showAllMeasurements = async function (
             <p>Return date</p>
           </li>`
   );
-
   const measurementItemsHtml = data
     .map((el) => {
       return ` <li class="list-item" data-measurement-item=${el.id}>
@@ -77,9 +78,18 @@ export const showMeasurement = async function (
   const id = e.currentTarget.dataset.measurementItem;
   const measurement = await window.api.getMeasurement(id);
 
-  containerMeasurements.style.display = "none";
-
+  containerMeasurements.classList.add("hide");
+  console.log(id);
   const measurementHtml = `<div class="measurement-item grid cols-2"> 
+  <div class="dots operation-menu-dots" data-measurement-item-id=${id}> 
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>   
+        <div class="operation-menu hide">
+          <button class=" btn-edit">Edit</button>
+          <button class="btn-delete">Delete</button>
+        </div>
         <div class="measurement-header">
           <div>
             <p>name</p>
@@ -136,47 +146,86 @@ export const showMeasurement = async function (
 
         <div class="measurement-item-options">
           <div class="grid cols-2">
+          <div>
+              <p>Collar</p>
+             <div class="circle ${
+               measurement.isCollar ? "circle-fill" : ""
+             }"></div>
+          </div>
             <div>
-              <label for="cutBan">Cut Ban</label>
-              <input type="checkbox" name="cutBan" id="cutBan">
+              <p>Cut Ban</p>
+              <div class="circle ${
+                measurement.banRounded ? "circle-fill" : ""
+              }"></div>
           </div>
           <div>
-            <label for="aamBan">Aam Ban</label>
-            <input type="checkbox" name="aamBan" id="aamBan">
+            <p>Aam Ban</p>
+          <div class="circle ${
+            measurement.banRounded ? "" : "circle-fill"
+          }"></div>
           </div>
           <div>
-            <label for="lahinGol">Lahin Gol</label>
-            <input type="checkbox" name="lahinGol" id="lahinGol">
+            <p>Lahin Gol</p>
+          <div class="circle ${
+            measurement.lahinRounded ? "circle-fill" : ""
+          }"></div>
           </div>
           <div>
-            <label for="lahinSada">Lahin Sada</label>
-            <input type="checkbox" name="lahinSada" id="lahinSada">
+            <p>Lahin Sada</p>
+            <div class="circle ${
+              measurement.lahinRounded ? "" : "circle-fill"
+            }"></div>
+          </div>
+          <div>
+            <p>Designi Btns</p>
+            <div class="circle ${
+              measurement.stylishButtons ? "circle-fill" : ""
+            }"></div>
+          </div>
+          <div>
+            <p >Chamak Tar</p>
+            <div class="circle ${
+              measurement.silkThread ? "circle-fill" : ""
+            }"></div>
           </div>
         </div>
 
         <div>
           <p>Cuff</p>
-          <p>9</p>
+          <p>${measurement.cuff}</p>
         </div>
 
         <div class="grid cols-2">
           <div>
-            <label for="aamSuit">Aam suit</label>
-            <input type="checkbox" name="aamSuit" id="aamSuit">
+            <p >Aam suit</p>
+            <div class="circle ${
+              measurement.banRounded ? "" : "circle-fill"
+            }"></div>
           </div>
           <div>
-            <label for="stylishSuit">Designi suit</label>
-            <input type="checkbox" name="stylishSuit" id="stylishSuit">
+            <p>Designi suit</p>
+            <div class="circle ${
+              measurement.stylishSuit ? "circle-fill" : ""
+            }"></div>
           </div>
           <div>
-            <label for="shalwarPocketMeasurment">Shalwar Pocket</label>
-            <input type="checkbox" name="shalwarPocketMeasurment" id="shalwarPocketMeasurment">
+            <p >Shalwar Pocket</p>
+            <div class="circle ${
+              measurement.shalwarPocket ? "circle-fill" : ""
+            }"></div>
+          </div>
+          <div>
+            <p>Front Pocket</p>
+            <div class="circle ${
+              measurement.frontPocket ? "circle-fill" : ""
+            }"></div>
           </div>
         </div>
             <div>
              <p>Astin Sada</p>
-             <p>5</p>
+             <p>${measurement.sleeveSimple} </p>
             </div>
+          
         </div>`;
 
   sectionAllMeasurments.insertAdjacentHTML("beforeend", measurementHtml);
