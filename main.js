@@ -138,3 +138,66 @@ ipcMain.handle("delete-measurement", (event, id) => {
 
   return result;
 });
+
+ipcMain.handle("update-measurement", (event, id, data) => {
+  console.log(data);
+  const stmt = db.prepare(`
+  UPDATE measurements
+  SET
+    name = @name,
+    returnDate = @returnDate,
+    price = @price,
+    createdAt = @createdAt,
+    numOfSuits = @numOfSuits,
+    length = @length,
+    width = @width,
+    shoulder = @shoulder,
+    collar = @collar,
+    chest = @chest,
+    fitness = @fitness,
+    shalwar = @shalwar,
+    pancha = @pancha,
+    sleeve = @sleeve,
+    sleeveSimple = @sleeveSimple,
+    cuff = @cuff,
+    sidePockets = @sidePockets,
+    banRounded = @banRounded,
+    lahinRounded = @lahinRounded,
+    frontPocket = @frontPocket,
+    silkThread = @silkThread,
+    stylishButtons = @stylishButtons,
+    stylishSuit = @stylishSuit,
+    shalwarPocket = @shalwarPocket,
+    isCollar = @isCollar
+  WHERE id = @id
+`);
+
+  return stmt.run({
+    id,
+    name: data.name,
+    returnDate: data.returnDate,
+    price: data.price,
+    createdAt: data.createdAt,
+    numOfSuits: data.numOfSuits,
+    length: data.length,
+    width: data.width,
+    shoulder: data.shoulder,
+    collar: data.collar,
+    chest: data.chest,
+    fitness: data.fitness,
+    shalwar: data.shalwar,
+    pancha: data.pancha,
+    sleeve: data.sleeve,
+    sleeveSimple: data.sleeveSimple,
+    cuff: data.cuff,
+    sidePockets: data.sidePockets,
+    banRounded: data.banRounded || 0,
+    lahinRounded: data.lahinRounded || 0,
+    frontPocket: data.frontPocket || 0,
+    silkThread: data.silkThread || 0,
+    stylishButtons: data.stylishButtons || 0,
+    stylishSuit: data.stylishSuit || 0,
+    shalwarPocket: data.shalwarPocket || 0,
+    isCollar: data.isCollar || 0,
+  });
+});

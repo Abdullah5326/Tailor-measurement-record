@@ -1,30 +1,32 @@
 import { showAlert } from "./alert.js";
+import { modifyFormData } from "./utils.js";
 
 export const addMeasurement = async function (e, formAddMeasurememtWrapper) {
-  const measurementData = {};
   const form = e.currentTarget;
   const formData = new FormData(form);
 
-  for (const [key, value] of formData) {
-    if (isNaN(Number(value)) && value !== "on") {
-      measurementData[key] = value;
-    } else if (value === "on") {
-      measurementData[key] = 1;
-    } else measurementData[key] = Number(value);
-  }
+  const measurementData = modifyFormData(formData);
+  // for (const [key, value] of formData) {
+  //   if (isNaN(Number(value)) && value !== "on") {
+  //     measurementData[key] = value;
+  //   } else if (value === "on") {
+  //     measurementData[key] = 1;
+  //   } else measurementData[key] = Number(value);
+  // }
 
   const body = e.currentTarget.closest("body");
-  measurementData.createdAt = Date.now();
+  // measurementData.createdAt = Date.now();
 
   const data = await window.api.addMeasurement(measurementData);
 
-  if (data.success)
+  if (data.success) {
     await showAlert(
       "success",
       `The measurement of ${measurementData.name} is successfully created`,
       body
     );
-  else {
+    body.removeChild(document.querySelector(".form-wrapper"));
+  } else {
     showAlert(
       "fail",
       "The measurement is not added! Please try again",
@@ -34,7 +36,6 @@ export const addMeasurement = async function (e, formAddMeasurememtWrapper) {
   }
 
   form.reset();
-  formAddMeasurememtWrapper.classList.add("hide");
 };
 
 export const showAllMeasurements = async function (
@@ -46,6 +47,8 @@ export const showAllMeasurements = async function (
   allMeasurementsWrapper.classList.remove("hide");
 
   const data = await window.api.getMeasurements();
+
+  console.log("Length", data.length);
 
   allMeasurementList.innerHTML = "";
 
@@ -79,7 +82,6 @@ export const showMeasurement = async function (
   const measurement = await window.api.getMeasurement(id);
 
   containerMeasurements.classList.add("hide");
-  console.log(id);
   const measurementHtml = `<div class="measurement-item grid cols-2"> 
   <div class="dots operation-menu-dots" data-measurement-item-id=${id}> 
           <span class="dot"></span>
@@ -87,7 +89,7 @@ export const showMeasurement = async function (
           <span class="dot"></span>
         </div>   
         <div class="operation-menu hide">
-          <button class=" btn-edit">Edit</button>
+          <button class=" btn-edit" data-edit-item-id=${id}>Edit</button>
           <button class="btn-delete">Delete</button>
         </div>
         <div class="measurement-header">

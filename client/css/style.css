@@ -29,14 +29,13 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-}
-
-.form-wrapper {
   animation: moveForm 0.3s ease 1;
   transition: all 0.3s ease;
+  z-index: 10;
 }
 
-.form-add-measurement {
+.form-add-measurement,
+.form-update-measurement {
   padding: 6.4rem;
   padding-bottom: 2.4rem;
   background-color: var(--gray-100);
@@ -59,7 +58,7 @@
   padding: 1.2rem 0;
 }
 
-.btn-form-close {
+.btn-close-form {
   position: absolute;
   right: 1.2rem;
   font-size: 3.2rem;

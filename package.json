@@ -9,16 +9,15 @@
   "homepage": "https://abdullah5326portfolio.netlify.com",
   "main": "main.js",
   "build": {
-    "appId": "com.tailor.measurements",
-    "productName": "Tailor Measurements",
-    "linux": {
+    "appId": "com.tailors.record",
+    "productName": "Tailors Record",
+    "win": {
       "target": [
-        "AppImage",
-        "deb"
-      ],
-      "icon": "assets/icon.png",
-      "category": "Utility",
-      "maintainer": "Abdullah <abdullahweb53264189@gmail.com"
+        "nsis"
+      ]
+    },
+    "directories": {
+      "output": "dist"
     }
   },
   "scripts": {

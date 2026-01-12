@@ -9,5 +9,7 @@ contextBridge.exposeInMainWorld("api", {
   getMeasurements: () => ipcRenderer.invoke("get-measurements"),
   getMeasurement: (id) => ipcRenderer.invoke("get-measurement", id),
   deleteMeasurement: (id) => ipcRenderer.invoke("delete-measurement", id),
+  updateMeasurement: (id, data) =>
+    ipcRenderer.invoke("update-measurement", id, data),
   // we can also expose variables, not just functions
 });
