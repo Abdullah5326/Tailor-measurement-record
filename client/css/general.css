@@ -31,7 +31,7 @@ body {
 
 .pri-heading {
   font-size: 12.8rem;
-  color: var(--primary-color);
+  color: white;
 }
 .sec-heading {
   font-size: 6.2rem;
@@ -77,6 +77,16 @@ body {
   height: 3rem;
 }
 
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 3;
+}
+
 .alert {
   padding: 1.6rem;
   font-size: 1.6rem;
@@ -88,6 +98,9 @@ body {
   transition: all 0.3s ease;
   color: white;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .alert-success {
@@ -125,6 +138,11 @@ body {
   border-radius: 50%;
 }
 
+.icon {
+  height: 2.4rem;
+  width: 2.4rem;
+}
+
 .hide {
   display: none !important;
 }
@@ -141,6 +159,15 @@ body {
 @keyframes moveForm {
   from {
     transform: translateY(-60%);
+  }
+  to {
+    transform: translateY((0));
+  }
+}
+
+@keyframes moveOperationMenu {
+  from {
+    transform: translateY(-20%);
   }
   to {
     transform: translateY((0));

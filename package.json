@@ -11,14 +11,21 @@
   "build": {
     "appId": "com.tailors.record",
     "productName": "Tailors Record",
-    "win": {
+    "linux": {
       "target": [
-        "nsis"
-      ]
+        "AppImage",
+        "deb"
+      ],
+      "icon": "assets/icon.png",
+      "category": "Utility"
     },
     "directories": {
       "output": "dist"
-    }
+    },
+    "files": [
+      "**/*",
+      "!node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}"
+    ]
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

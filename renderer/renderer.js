@@ -65,9 +65,11 @@ const handleAddMeasuremnt = function (e) {
 
 const handleCloseForm = function () {
   bodyElement.removeChild(document.querySelector(".form-wrapper"));
+  bodyElement.removeChild(document.querySelector(".overlay"));
 };
 const handleShowForm = function (formData) {
-  const html = ` <div class="form-wrapper">
+  const html = `<div class="overlay"></div> <div class="form-wrapper">
+  
         <span class="btn-close-form">&times;</span>
         <form action="#" class="form form-${
           formData.id ? "update" : "add"
@@ -235,7 +237,9 @@ const handleUpdateMeasurement = async function (e, id) {
   const result = await window.api.updateMeasurement(id, updatedMeasurementData);
 
   if (result.changes) {
+    console.log(document.querySelector(".form-wrapper"));
     bodyElement.removeChild(document.querySelector(".form-wrapper"));
+    bodyElement.removeChild(document.querySelector(".overlay"));
     await showAlert(
       "success",
       `The measurement of ${updatedMeasurementData.name} is successfully updated`,
@@ -304,7 +308,6 @@ const handleOperationMenu = function (e) {
 };
 
 const handleHomeBtn = function () {
-  console.log(measurementItem);
   if (measurementItem) {
     sectionAllMeasurements.removeChild(measurementItem);
     measurementItem = undefined;

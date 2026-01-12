@@ -1,5 +1,8 @@
 export const showAlert = async function (type, message, parentEl) {
   const el = ` <div class="alert alert-${type}">
+    <img src="./../../assets/icons-ui/SVG/${
+      type === "success" ? "checkmark" : "cross"
+    }.svg" class="icon" alt="icon-check"></img>
       <p>${message}</p>
     </div>`;
 
@@ -9,5 +12,5 @@ export const showAlert = async function (type, message, parentEl) {
     // alert.remove();
 
     parentEl.removeChild(document.querySelector(".alert"));
-  }, 5000);
+  }, 3000);
 };

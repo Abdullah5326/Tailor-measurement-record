@@ -26,6 +26,7 @@ export const addMeasurement = async function (e, formAddMeasurememtWrapper) {
       body
     );
     body.removeChild(document.querySelector(".form-wrapper"));
+    body.removeChild(document.querySelector(".overlay"));
   } else {
     showAlert(
       "fail",
@@ -89,8 +90,12 @@ export const showMeasurement = async function (
           <span class="dot"></span>
         </div>   
         <div class="operation-menu hide">
-          <button class=" btn-edit" data-edit-item-id=${id}>Edit</button>
-          <button class="btn-delete">Delete</button>
+          <button class=" btn-edit" data-edit-item-id=${id}>
+           <img src="./../../assets/icons-ui/SVG/pencil.svg" alt="" class="icon">
+          Edit</button>
+          <button class="btn-delete">
+          <img src="./../../assets/icons-ui/SVG/bin.svg" alt="" class="icon">
+          Delete</button>
         </div>
         <div class="measurement-header">
           <div>
