@@ -1,8 +1,9 @@
 import { showAlert } from "./alert.js";
 import {
   addMeasurement,
-  showMeasurement,
-  showAllMeasurements,
+  getMeasurements,
+  deleteMeasurement,
+  getMeasurement,
 } from "./measurement.js";
 import { modifyFormData } from "./utils.js";
 
@@ -24,51 +25,70 @@ const allMeasurementList = document.querySelector(".measurement-list");
 const allMeasurementsWrapper = document.querySelector(
   ".all-measurements-wrapper"
 );
+const inputSearch = document.querySelector(".input-search");
 let allMeasurementsContainer, measurementItem;
 
-//Handler
+class Measurement {
+  #measurements;
+  constructor() {
+    btnSeeAllMeasurments.addEventListener(
+      "click",
+      this.handleShowAllMeasuremnts.bind(this)
+    );
+    btnAddMeasurment.addEventListener("click", this.handleShowForm.bind(this));
+    btnHome.addEventListener("click", this.handleHomeBtn);
+    btnMeasurements.addEventListener("click", this.handleMeasurementBtn);
 
-const fillForm = function (formData) {
-  document.getElementById("name").value = formData.name || "Abdullah";
-  document.getElementById("numOfSuits").value = formData.numOfSuits || 2;
-  document.getElementById("price").value = formData.price || 2000;
-  document.getElementById("return-date").value =
-    formData.returnDate || "02/03/2007";
-  document.getElementById("length").value = formData.length || 42;
-  document.getElementById("width").value = formData.width || 21;
-  document.getElementById("shoulder").value = formData.shoulder || 19;
-  document.getElementById("collar").value = formData.collar || 15;
-  document.getElementById("chest").value = formData.chest || 36;
-  document.getElementById("fitness").value = formData.fitness || 21;
-  document.getElementById("sleeve").value = formData.sleeve || 24;
-  document.getElementById("shalwar").value = formData.shalwar || 42;
-  document.getElementById("pancha").value = formData.pancha || 7;
-  document.getElementById("sleeveSimple").value = formData.sleeveSimple || 6;
-  document.getElementById("cuff").value = formData.cuff || 9;
-  document.getElementById("sidePockets").value = formData.sidePockets || 2;
+    inputSearch.addEventListener("input", this.handleSearch.bind(this));
+  }
 
-  document.getElementById("isCollar").checked = formData.isCollar;
-  document.getElementById("banGol").checked = formData.banRounded || 1;
-  document.getElementById("lahinRounded").checked = formData.lahinRounded || 1;
-  document.getElementById("frontPocket").checked = formData.frontPocket || 1;
-  document.getElementById("silkThread").checked = formData.silkThread;
-  document.getElementById("stylishButtons").checked =
-    formData.stylishButtons || 1;
-  document.getElementById("stylishSuit").checked = formData.stylishSuit;
-  document.getElementById("shalwarPocket").checked = formData.shalwarPocket;
-};
+  showAllMeasurements(data) {
+    sectionHome.classList.add("hide");
+    allMeasurementsWrapper.classList.remove("hide");
 
-const handleAddMeasuremnt = function (e) {
-  e.preventDefault();
-  addMeasurement(e, formAddMeasurememtWrapper, bodyElement);
-};
+    allMeasurementList.innerHTML = "";
 
-const handleCloseForm = function () {
-  bodyElement.removeChild(document.querySelector(".form-wrapper"));
-  bodyElement.removeChild(document.querySelector(".overlay"));
-};
-const handleShowForm = function (formData) {
-  const html = `<div class="overlay"></div> <div class="form-wrapper">
+    const measurementItemsHtml = data
+      .map((el) => {
+        return ` <li class="list-item" data-measurement-item=${el.id}>
+            <p>${el.name} </p>
+            <p>${el.numOfSuits}</p>
+            <p>${el.returnDate}</p>
+          </li>`;
+      })
+      .join(" ");
+
+    allMeasurementList.insertAdjacentHTML("beforeend", measurementItemsHtml);
+    const measurementItems = [...document.querySelectorAll(".list-item")];
+
+    if (measurementItems)
+      measurementItems.forEach((el) =>
+        el.addEventListener("click", this.handleShowMeasurement.bind(this))
+      );
+  }
+
+  handleSearch() {
+    const name = document.querySelector(".input-search").value;
+    let searchItems = this.#measurements.filter((item) =>
+      item.name.toLowerCase().startsWith(name.toLowerCase())
+    );
+    this.showAllMeasurements(searchItems);
+  }
+
+  async handleShowAllMeasuremnts() {
+    this.#measurements = await getMeasurements();
+    this.showAllMeasurements(this.#measurements);
+
+    // const measurementItems = [...document.querySelectorAll(".list-item")];
+
+    // if (measurementItems)
+    //   measurementItems.forEach((el) =>
+    //     el.addEventListener("click", this.handleShowMeasurement.bind(this))
+    //   );
+  }
+
+  handleShowForm(formData) {
+    const html = `<div class="overlay"></div> <div class="form-wrapper">
   
         <span class="btn-close-form">&times;</span>
         <form action="#" class="form form-${
@@ -190,153 +210,362 @@ const handleShowForm = function (formData) {
           </div>
         </form>
       </div>`;
-  if (!document.querySelector(".form-wrapper")) {
-    bodyElement.insertAdjacentHTML("afterbegin", html);
-    fillForm(formData);
-    document
-      .querySelector(".btn-close-form")
-      .addEventListener("click", handleCloseForm);
-    if (document.querySelector(".form-add-measurement"))
+    if (!document.querySelector(".form-wrapper")) {
+      bodyElement.insertAdjacentHTML("afterbegin", html);
+      this.fillForm(formData);
       document
-        .querySelector(".form-add-measurement")
-        .addEventListener("submit", handleAddMeasuremnt);
+        .querySelector(".btn-close-form")
+        .addEventListener("click", this.handleCloseForm);
+      if (document.querySelector(".form-add-measurement"))
+        document
+          .querySelector(".form-add-measurement")
+          .addEventListener("submit", this.handleAddMeasuremnt);
+    }
   }
-};
 
-const handleShowMeasurement = async (e) => {
-  await showMeasurement(e, containerMeasurements, sectionAllMeasurements);
-  measurementItem = document.querySelector(".measurement-item");
-
-  const operationMenuDots = document.querySelector(".operation-menu-dots");
-
-  operationMenuDots.addEventListener("click", handleOperationMenu);
-};
-
-const handleShowAllMeasuremnts = async () => {
-  await showAllMeasurements(
-    sectionHome,
-    allMeasurementList,
-    allMeasurementsWrapper
-  );
-
-  const measurementItems = [...document.querySelectorAll(".list-item")];
-
-  if (measurementItems)
-    measurementItems.forEach((el) =>
-      el.addEventListener("click", handleShowMeasurement)
-    );
-};
-
-const handleUpdateMeasurement = async function (e, id) {
-  e.preventDefault();
-  const form = document.querySelector(".form-update-measurement");
-  const formData = new FormData(form);
-
-  const updatedMeasurementData = modifyFormData(formData);
-  console.log(id);
-  const result = await window.api.updateMeasurement(id, updatedMeasurementData);
-
-  if (result.changes) {
-    console.log(document.querySelector(".form-wrapper"));
+  handleCloseForm() {
     bodyElement.removeChild(document.querySelector(".form-wrapper"));
     bodyElement.removeChild(document.querySelector(".overlay"));
-    await showAlert(
-      "success",
-      `The measurement of ${updatedMeasurementData.name} is successfully updated`,
-      bodyElement
-    );
+  }
 
-    sectionAllMeasurements.removeChild(
-      document.querySelector(".measurement-item")
-    );
-    measurementItem = undefined;
+  async handleAddMeasuremnt(e) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    const measurementData = modifyFormData(formData);
+    const body = e.currentTarget.closest("body");
+    measurementData.createdAt = Date.now();
+
+    const result = await addMeasurement(measurementData);
+
+    if (result.success) {
+      await showAlert(
+        "success",
+        `The measurement of ${measurementData.name} is successfully created`,
+        body
+      );
+      body.removeChild(document.querySelector(".form-wrapper"));
+      body.removeChild(document.querySelector(".overlay"));
+    } else {
+      showAlert(
+        "fail",
+        "The measurement is not added! Please try again",
+        e.currentTarget.closest("body")
+      );
+      return;
+    }
+
+    form.reset();
+  }
+
+  handleHomeBtn() {
+    if (measurementItem) {
+      sectionAllMeasurements.removeChild(measurementItem);
+      measurementItem = undefined;
+    }
 
     containerMeasurements.classList.remove("hide");
-
-    handleShowAllMeasuremnts();
-  } else {
-    showAlert(
-      "fail",
-      `The measurement of ${updatedMeasurementData.name} is not updated`,
-      bodyElement
-    );
+    allMeasurementList.textContent = "";
+    allMeasurementsWrapper.classList.add("hide");
+    sectionHome.classList.remove("hide");
   }
-  console.log(updatedMeasurementData);
-  console.log(result);
-};
 
-const handleEditMeasurement = async function (e) {
-  const id = e.currentTarget.dataset.editItemId;
-  const measurementToEdit = await window.api.getMeasurement(id);
-  handleShowForm(measurementToEdit);
-  document
-    .querySelector(".form-update-measurement")
-    .addEventListener("submit", (e) => handleUpdateMeasurement(e, id));
-};
-
-const handleDeleteMeasurement = async function (id) {
-  const result = await window.api.deleteMeasurement(id);
-
-  if (result.changes) {
-    showAlert(
-      "success",
-      `The measurement is successfully deleted`,
-      bodyElement
-    );
+  handleMeasurementBtn() {
     sectionHome.classList.add("hide");
-    sectionAllMeasurements.removeChild(measurementItem);
-    measurementItem = undefined;
+    if (measurementItem) {
+      sectionAllMeasurements.removeChild(measurementItem);
+      measurementItem = undefined;
+    }
     containerMeasurements.classList.remove("hide");
     allMeasurementList.classList.remove("hide");
-    handleShowAllMeasuremnts();
-  } else {
-    showAlert("success", `The measurement is not deleted`, bodyElement);
-  }
-};
-
-const handleOperationMenu = function (e) {
-  const operationMenu = document.querySelector(".operation-menu");
-  operationMenu.classList.toggle("hide");
-
-  const id = e.currentTarget.dataset.measurementItemId;
-  const btnEdit = document.querySelector(".btn-edit");
-  const btnDelete = document.querySelector(".btn-delete");
-
-  btnEdit.addEventListener("click", handleEditMeasurement);
-
-  btnDelete.addEventListener("click", () => handleDeleteMeasurement(id));
-};
-
-const handleHomeBtn = function () {
-  if (measurementItem) {
-    sectionAllMeasurements.removeChild(measurementItem);
-    measurementItem = undefined;
   }
 
-  containerMeasurements.classList.remove("hide");
-  allMeasurementList.textContent = "";
-  allMeasurementsWrapper.classList.add("hide");
-  sectionHome.classList.remove("hide");
-};
+  async handleShowMeasurement(e) {
+    const id = e.currentTarget.dataset.measurementItem;
+    const measurement = await getMeasurement(id);
 
-const handleMeasurementBtn = function () {
-  sectionHome.classList.add("hide");
-  if (measurementItem) {
-    sectionAllMeasurements.removeChild(measurementItem);
-    measurementItem = undefined;
+    containerMeasurements.classList.add("hide");
+    const measurementHtml = `<div class="measurement-item grid cols-2"> 
+  <div class="dots operation-menu-dots" data-measurement-item-id=${id}> 
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>   
+        <div class="operation-menu hide">
+          <button class=" btn-edit" data-edit-item-id=${id}>
+           <img src="./../../assets/icons-ui/SVG/pencil.svg" alt="" class="icon">
+          Edit</button>
+          <button class="btn-delete">
+          <img src="./../../assets/icons-ui/SVG/bin.svg" alt="" class="icon">
+          Delete</button>
+        </div>
+        <div class="measurement-header">
+          <div>
+            <p>name</p>
+            <p>${measurement.name} </p>
+          </div>
+          <div>
+            <p>return date</p>
+            <p>${measurement.returnDate}</p>
+          </div>
+          <div>
+            <p>No. suits</p>
+            <p>${measurement.numOfSuits}</p>
+          </div>
+          <div>
+            <p>Price</p>
+            <p>${measurement.price} </p>
+          </div>
+        </div>
+
+        <div class="measurement-item-main">
+          <div>
+            <p>Lambai</p>
+            <p>${measurement.length} </p>
+          </div>
+          <div>
+            <p>gira</p>
+            <p>${measurement.width} </p>
+          </div>
+          <div>
+            <p>tira</p>
+            <p>${measurement.shoulder} </p>
+          </div>
+          <div>
+            <p>Astin</p>
+            <p>${measurement.sleeve} </p>
+          </div>
+          <div>
+            <p>collar</p>
+            <p>${measurement.collar} </p>
+          </div>
+          <div>
+            <p>chati</p>
+            <p>${measurement.chest} </p>
+          </div>
+          <div>
+            <p>shalwar</p>
+            <p>${measurement.shalwar}</p>
+          </div>
+          <div>
+            <p>pancha</p>
+            <p>${measurement.pancha} </p>
+          </div>
+        </div>
+
+        <div class="measurement-item-options">
+          <div class="grid cols-2">
+          <div>
+              <p>Collar</p>
+             <div class="circle ${
+               measurement.isCollar ? "circle-fill" : ""
+             }"></div>
+          </div>
+            <div>
+              <p>Cut Ban</p>
+              <div class="circle ${
+                measurement.banRounded ? "circle-fill" : ""
+              }"></div>
+          </div>
+          <div>
+            <p>Aam Ban</p>
+          <div class="circle ${
+            measurement.banRounded ? "" : "circle-fill"
+          }"></div>
+          </div>
+          <div>
+            <p>Lahin Gol</p>
+          <div class="circle ${
+            measurement.lahinRounded ? "circle-fill" : ""
+          }"></div>
+          </div>
+          <div>
+            <p>Lahin Sada</p>
+            <div class="circle ${
+              measurement.lahinRounded ? "" : "circle-fill"
+            }"></div>
+          </div>
+          <div>
+            <p>Designi Btns</p>
+            <div class="circle ${
+              measurement.stylishButtons ? "circle-fill" : ""
+            }"></div>
+          </div>
+          <div>
+            <p >Chamak Tar</p>
+            <div class="circle ${
+              measurement.silkThread ? "circle-fill" : ""
+            }"></div>
+          </div>
+        </div>
+
+        <div>
+          <p>Cuff</p>
+          <p>${measurement.cuff}</p>
+        </div>
+
+        <div class="grid cols-2">
+          <div>
+            <p >Aam suit</p>
+            <div class="circle ${
+              measurement.banRounded ? "" : "circle-fill"
+            }"></div>
+          </div>
+          <div>
+            <p>Designi suit</p>
+            <div class="circle ${
+              measurement.stylishSuit ? "circle-fill" : ""
+            }"></div>
+          </div>
+          <div>
+            <p >Shalwar Pocket</p>
+            <div class="circle ${
+              measurement.shalwarPocket ? "circle-fill" : ""
+            }"></div>
+          </div>
+          <div>
+            <p>Front Pocket</p>
+            <div class="circle ${
+              measurement.frontPocket ? "circle-fill" : ""
+            }"></div>
+          </div>
+        </div>
+            <div>
+             <p>Astin Sada</p>
+             <p>${measurement.sleeveSimple} </p>
+            </div>
+          
+        </div>`;
+
+    sectionAllMeasurements.insertAdjacentHTML("beforeend", measurementHtml);
+    measurementItem = document.querySelector(".measurement-item");
+
+    const operationMenuDots = document.querySelector(".operation-menu-dots");
+
+    operationMenuDots.addEventListener(
+      "click",
+      this.handleOperationMenu.bind(this)
+    );
   }
-  containerMeasurements.classList.remove("hide");
-  allMeasurementList.classList.remove("hide");
-};
 
-//Event Listeners
-if (btnAddMeasurment)
-  btnAddMeasurment.addEventListener("click", handleShowForm);
+  handleOperationMenu(e) {
+    const operationMenu = document.querySelector(".operation-menu");
+    operationMenu.classList.toggle("hide");
 
-if (btnSeeAllMeasurments)
-  btnSeeAllMeasurments.addEventListener("click", handleShowAllMeasuremnts);
+    const id = e.currentTarget.dataset.measurementItemId;
+    const btnEdit = document.querySelector(".btn-edit");
+    const btnDelete = document.querySelector(".btn-delete");
 
-if (btnHome) btnHome.addEventListener("click", handleHomeBtn);
+    btnEdit.addEventListener("click", this.handleEditMeasurement.bind(this));
 
-if (btnMeasurements)
-  btnMeasurements.addEventListener("click", handleMeasurementBtn);
+    const deleteItem = () => {
+      this.handleDeleteMeasurement(id);
+    };
+
+    btnDelete.addEventListener("click", deleteItem.bind(this));
+  }
+
+  async handleDeleteMeasurement(id) {
+    const result = await window.api.deleteMeasurement(id);
+
+    if (result.changes) {
+      showAlert(
+        "success",
+        `The measurement is successfully deleted`,
+        bodyElement
+      );
+      sectionHome.classList.add("hide");
+      sectionAllMeasurements.removeChild(measurementItem);
+      measurementItem = undefined;
+      containerMeasurements.classList.remove("hide");
+      allMeasurementList.classList.remove("hide");
+      this.handleShowAllMeasuremnts();
+    } else {
+      showAlert("success", `The measurement is not deleted`, bodyElement);
+    }
+  }
+
+  async handleEditMeasurement(e) {
+    const id = e.currentTarget.dataset.editItemId;
+    const measurementToEdit = await window.api.getMeasurement(id);
+    this.handleShowForm(measurementToEdit);
+
+    const updateItem = function (e) {
+      e.preventDefault();
+      this.handleUpdateMeasurement(e, id);
+    };
+    document
+      .querySelector(".form-update-measurement")
+      .addEventListener("submit", updateItem.bind(this));
+  }
+
+  async handleUpdateMeasurement(e, id) {
+    const form = document.querySelector(".form-update-measurement");
+    const formData = new FormData(form);
+
+    const updatedMeasurementData = modifyFormData(formData);
+    const result = await window.api.updateMeasurement(
+      id,
+      updatedMeasurementData
+    );
+
+    if (result.changes) {
+      bodyElement.removeChild(document.querySelector(".form-wrapper"));
+      bodyElement.removeChild(document.querySelector(".overlay"));
+      await showAlert(
+        "success",
+        `The measurement of ${updatedMeasurementData.name} is successfully updated`,
+        bodyElement
+      );
+
+      sectionAllMeasurements.removeChild(
+        document.querySelector(".measurement-item")
+      );
+      measurementItem = undefined;
+
+      containerMeasurements.classList.remove("hide");
+
+      this.handleShowAllMeasuremnts();
+    } else {
+      showAlert(
+        "fail",
+        `The measurement of ${updatedMeasurementData.name} is not updated`,
+        bodyElement
+      );
+    }
+  }
+
+  fillForm(formData) {
+    document.getElementById("name").value = formData.name || "Abdullah";
+    document.getElementById("numOfSuits").value = formData.numOfSuits || 2;
+    document.getElementById("price").value = formData.price || 2000;
+    document.getElementById("return-date").value =
+      formData.returnDate || "02/03/2007";
+    document.getElementById("length").value = formData.length || 42;
+    document.getElementById("width").value = formData.width || 21;
+    document.getElementById("shoulder").value = formData.shoulder || 19;
+    document.getElementById("collar").value = formData.collar || 15;
+    document.getElementById("chest").value = formData.chest || 36;
+    document.getElementById("fitness").value = formData.fitness || 21;
+    document.getElementById("sleeve").value = formData.sleeve || 24;
+    document.getElementById("shalwar").value = formData.shalwar || 42;
+    document.getElementById("pancha").value = formData.pancha || 7;
+    document.getElementById("sleeveSimple").value = formData.sleeveSimple || 6;
+    document.getElementById("cuff").value = formData.cuff || 9;
+    document.getElementById("sidePockets").value = formData.sidePockets || 2;
+
+    document.getElementById("isCollar").checked = formData.isCollar;
+    document.getElementById("banGol").checked = formData.banRounded || 1;
+    document.getElementById("lahinRounded").checked =
+      formData.lahinRounded || 1;
+    document.getElementById("frontPocket").checked = formData.frontPocket || 1;
+    document.getElementById("silkThread").checked = formData.silkThread;
+    document.getElementById("stylishButtons").checked =
+      formData.stylishButtons || 1;
+    document.getElementById("stylishSuit").checked = formData.stylishSuit;
+    document.getElementById("shalwarPocket").checked = formData.shalwarPocket;
+  }
+}
+
+const measurementFeature = new Measurement();

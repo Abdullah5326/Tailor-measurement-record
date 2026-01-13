@@ -204,7 +204,35 @@
   background-color: var(--primary-color);
   color: var(--gray-100);
   align-items: center;
+  font-size: 1.8rem;
   align-content: center;
+}
+
+.list-item-header div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.input-search {
+  border: none;
+  outline: none;
+  height: 4rem;
+  width: 30rem;
+  padding: 0 0.6rem;
+  font-size: 1.8rem;
+}
+
+.list-item-header button {
+  position: absolute;
+  right: 0.8rem;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  border-left: 1px solid var(--primary-color);
+  padding-left: 0.6rem;
+  cursor: pointer;
 }
 
 .list-item-header p {

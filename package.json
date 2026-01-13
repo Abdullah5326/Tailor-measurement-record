@@ -11,13 +11,11 @@
   "build": {
     "appId": "com.tailors.record",
     "productName": "Tailors Record",
-    "linux": {
+    "win": {
+      "icon": "assets/icons/icon.ico",
       "target": [
-        "AppImage",
-        "deb"
-      ],
-      "icon": "assets/icon.png",
-      "category": "Utility"
+        "nsis"
+      ]
     },
     "directories": {
       "output": "dist"
@@ -30,8 +28,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "postinstall": "electron-rebuild",
-    "build": "electron-builder"
+    "postinstall": "electron-builder install-app-deps",
+    "build": "electron-builder",
+    "build-win": "electron-builder --win"
   },
   "license": "ISC",
   "keywords": [],

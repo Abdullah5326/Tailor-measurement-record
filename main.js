@@ -140,7 +140,6 @@ ipcMain.handle("delete-measurement", (event, id) => {
 });
 
 ipcMain.handle("update-measurement", (event, id, data) => {
-  console.log(data);
   const stmt = db.prepare(`
   UPDATE measurements
   SET
