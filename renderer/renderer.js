@@ -49,6 +49,7 @@ class Measurement {
     allMeasurementList.innerHTML = "";
 
     const measurementItemsHtml = data
+      .reverse()
       .map((el) => {
         return ` <li class="list-item" data-measurement-item=${el.id}>
             <p>${el.name} </p>
@@ -78,13 +79,6 @@ class Measurement {
   async handleShowAllMeasuremnts() {
     this.#measurements = await getMeasurements();
     this.showAllMeasurements(this.#measurements);
-
-    // const measurementItems = [...document.querySelectorAll(".list-item")];
-
-    // if (measurementItems)
-    //   measurementItems.forEach((el) =>
-    //     el.addEventListener("click", this.handleShowMeasurement.bind(this))
-    //   );
   }
 
   handleShowForm(formData) {
@@ -97,57 +91,53 @@ class Measurement {
           <div class="measurment-details-section grid cols-2">
             <div>
               <label for="name">Name</label>
-              <input type="text" id="name"  name="name" />
+              <input type="text" id="name"  name="name" required/>
             </div>
             <div>
               <label for="numOfSuits">No. suits</label>
-              <input type="number" name="numOfSuits" id="numOfSuits" />
+              <input type="number" name="numOfSuits" id="numOfSuits" required/>
             </div>
             <div>
               <label for="price">Price</label>
-              <input type="number" name="price" id="price" />
+              <input type="number" name="price" id="price" required/>
             </div>
             <div>
               <label for="return-date">Return Date</label>
-              <input type="date" name="returnDate" id="return-date" />
+              <input type="date" name="returnDate" id="return-date" required />
             </div>
           </div>
           <div class="measurment-form-col-1">
             <div>
               <label for="length">lambai</label>
-              <input type="number" id="length"  name="length" />
-            </div>
-            <div>
-              <label for="width">chorai</label>
-              <input type="number" id="width" name="width" />
+              <input type="number" id="length"  name="length" step="0.01" required/>
             </div>
             <div>
               <label for="shoulder">tira</label>
-              <input type="number" id="shoulder" name="shoulder" />
+              <input type="number" id="shoulder" name="shoulder" step="0.01"    required/>
             </div>
             <div>
               <label for="collar">collar</label>
-              <input type="number" id="collar" name="collar" />
+              <input type="number" id="collar" name="collar"  step="0.01"  required />
             </div>
             <div>
               <label for="chest">chati</label>
-              <input type="number" id="chest" name="chest"/>
+              <input type="number" id="chest" name="chest" step="0.01"   required/>
             </div>
             <div>
               <label for="fitness">gira</label>
-              <input type="number" id="fitness" name="fitness" />
+              <input type="number" id="fitness" name="fitness"  step="0.01"   required/>
             </div>
             <div>
               <label for="sleeve">astin</label>
-              <input type="number" id="sleeve" name="sleeve" />
+              <input type="number" id="sleeve" name="sleeve"  step="0.01"  required />
             </div>
             <div>
               <label for="shalwar">shalwar</label>
-              <input type="number" id="shalwar" name="shalwar" />
+              <input type="number" id="shalwar" name="shalwar"  step="0.01"  required />
             </div>
             <div>
               <label for="pancha">pancha</label>
-              <input type="number" id="pancha" name="pancha" />
+              <input type="number" id="pancha" name="pancha"   step="0.01"  required/>
             </div>
           </div>
           <div class="measurment-form-col-2 grid cols-2">
@@ -190,12 +180,13 @@ class Measurement {
                 name="sleeveSimple"
                 id="sleeveSimple"
                 class="input-small"
+                step="0.01" 
                 
               />
             </div>
             <div>
               <label for="cuff">Suit cuff</label>
-              <input type="number" name="cuff" id="cuff" class="input-small"  />
+              <input type="number" name="cuff" id="cuff" class="input-small" step="0.01"   />
             </div>
             <div class="side-pockets-container">
               <label for="sidePockets" >Side pockets</label>
@@ -236,6 +227,7 @@ class Measurement {
     const measurementData = modifyFormData(formData);
     const body = e.currentTarget.closest("body");
     measurementData.createdAt = Date.now();
+    measurementData.width = 21;
 
     const result = await addMeasurement(measurementData);
 
@@ -277,7 +269,9 @@ class Measurement {
       sectionAllMeasurements.removeChild(measurementItem);
       measurementItem = undefined;
     }
+    console.log(document.querySelector(".customers"));
     containerMeasurements.classList.remove("hide");
+    document.querySelector(".customers").classList.add("hide");
     allMeasurementList.classList.remove("hide");
   }
 
@@ -326,7 +320,7 @@ class Measurement {
           </div>
           <div>
             <p>gira</p>
-            <p>${measurement.width} </p>
+            <p>${measurement.fitness} </p>
           </div>
           <div>
             <p>tira</p>
@@ -435,6 +429,10 @@ class Measurement {
              <p>Astin Sada</p>
              <p>${measurement.sleeveSimple} </p>
             </div>
+            <div class="side-pockets">
+             <p>Side pockets</p>
+             <p>${measurement.sidePockets} </p>
+            </div>
           
         </div>`;
 
@@ -505,6 +503,7 @@ class Measurement {
     const formData = new FormData(form);
 
     const updatedMeasurementData = modifyFormData(formData);
+    updatedMeasurementData.width = 21;
     const result = await window.api.updateMeasurement(
       id,
       updatedMeasurementData
@@ -537,32 +536,28 @@ class Measurement {
   }
 
   fillForm(formData) {
-    document.getElementById("name").value = formData.name || "Abdullah";
-    document.getElementById("numOfSuits").value = formData.numOfSuits || 2;
-    document.getElementById("price").value = formData.price || 2000;
-    document.getElementById("return-date").value =
-      formData.returnDate || "02/03/2007";
-    document.getElementById("length").value = formData.length || 42;
-    document.getElementById("width").value = formData.width || 21;
-    document.getElementById("shoulder").value = formData.shoulder || 19;
-    document.getElementById("collar").value = formData.collar || 15;
-    document.getElementById("chest").value = formData.chest || 36;
-    document.getElementById("fitness").value = formData.fitness || 21;
-    document.getElementById("sleeve").value = formData.sleeve || 24;
-    document.getElementById("shalwar").value = formData.shalwar || 42;
-    document.getElementById("pancha").value = formData.pancha || 7;
-    document.getElementById("sleeveSimple").value = formData.sleeveSimple || 6;
-    document.getElementById("cuff").value = formData.cuff || 9;
-    document.getElementById("sidePockets").value = formData.sidePockets || 2;
+    document.getElementById("name").value = formData.name || "";
+    document.getElementById("numOfSuits").value = formData.numOfSuits;
+    document.getElementById("price").value = formData.price;
+    document.getElementById("return-date").value = formData.returnDate;
+    document.getElementById("length").value = formData.length;
+    document.getElementById("shoulder").value = formData.shoulder;
+    document.getElementById("collar").value = formData.collar;
+    document.getElementById("chest").value = formData.chest;
+    document.getElementById("fitness").value = formData.fitness;
+    document.getElementById("sleeve").value = formData.sleeve;
+    document.getElementById("shalwar").value = formData.shalwar;
+    document.getElementById("pancha").value = formData.pancha;
+    document.getElementById("sleeveSimple").value = formData.sleeveSimple;
+    document.getElementById("cuff").value = formData.cuff;
+    document.getElementById("sidePockets").value = formData.sidePockets;
 
     document.getElementById("isCollar").checked = formData.isCollar;
-    document.getElementById("banGol").checked = formData.banRounded || 1;
-    document.getElementById("lahinRounded").checked =
-      formData.lahinRounded || 1;
-    document.getElementById("frontPocket").checked = formData.frontPocket || 1;
+    document.getElementById("banGol").checked = formData.banRounded;
+    document.getElementById("lahinRounded").checked = formData.lahinRounded;
+    document.getElementById("frontPocket").checked = formData.frontPocket;
     document.getElementById("silkThread").checked = formData.silkThread;
-    document.getElementById("stylishButtons").checked =
-      formData.stylishButtons || 1;
+    document.getElementById("stylishButtons").checked = formData.stylishButtons;
     document.getElementById("stylishSuit").checked = formData.stylishSuit;
     document.getElementById("shalwarPocket").checked = formData.shalwarPocket;
   }

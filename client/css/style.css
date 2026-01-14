@@ -206,6 +206,7 @@
   align-items: center;
   font-size: 1.8rem;
   align-content: center;
+  background-color: black;
 }
 
 .list-item-header div {
@@ -213,6 +214,7 @@
   justify-content: space-between;
   align-items: center;
   position: relative;
+  height: 4rem;
 }
 
 .input-search {
@@ -222,6 +224,13 @@
   width: 30rem;
   padding: 0 0.6rem;
   font-size: 1.8rem;
+  border-radius: 2.4rem;
+  margin-bottom: 1.4rem;
+}
+
+.side-pockets {
+  display: flex;
+  gap: 1rem;
 }
 
 .list-item-header button {
@@ -233,6 +242,7 @@
   border-left: 1px solid var(--primary-color);
   padding-left: 0.6rem;
   cursor: pointer;
+  bottom: 1.4rem;
 }
 
 .list-item-header p {

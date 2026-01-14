@@ -50,11 +50,13 @@ function createDatabase() {
   ).run();
 }
 
+let mainWindow;
+
 function createWindow() {
-  const win = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    icon: path.join(__dirname, "assets/icon.png"),
+    icon: path.join(__dirname, "assets", "icons", "icon-512.png"),
     show: false,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
@@ -63,21 +65,21 @@ function createWindow() {
     },
   });
 
-  win.loadFile(path.join(__dirname, "client/views/index.html"));
+  mainWindow.loadFile(path.join(__dirname, "client/views/index.html"));
 
   // REQUIRED when show:false
-  win.once("ready-to-show", () => {
-    win.show();
+  mainWindow.once("ready-to-show", () => {
+    mainWindow.show();
   });
 }
-
 app.whenReady().then(() => {
-  createDatabase();
-  createWindow();
-
-  app.on("activate", () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
-  });
+  try {
+    createDatabase();
+    createWindow();
+  } catch (err) {
+    console.error("Startup failed:", err);
+    app.quit();
+  }
 });
 
 app.on("window-all-closed", () => {
